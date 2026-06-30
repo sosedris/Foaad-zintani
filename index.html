@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الموقع الرسمي للشيخ فؤاد الزنتاني</title>
+    <style>
+        /* تنسيقات الألوان والهوية البصرية للموقع */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #1e3d2f; /* لون أخضر إسلامي هادئ */
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        header p {
+            margin: 0.5rem 0 0 0;
+            opacity: 0.9;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        /* قسم البث المباشر */
+        .live-section {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            margin-bottom: 2rem;
+            border-top: 4px solid #cc9933; /* لمسة ذهبية */
+        }
+        .live-player {
+            width: 100%;
+            max-width: 500px;
+            height: 80px; /* مقاس نحيف يشبه الراديو تماماً */
+            border: none;
+            margin-top: 1rem;
+        }
+        /* أقسام الأرشيف */
+        .category-title {
+            color: #1e3d2f;
+            border-bottom: 2px solid #1e3d2f;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        .lesson-card {
+            background-color: #ffffff;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .lesson-info h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        .lesson-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-listen {
+            background-color: #1e3d2f;
+            color: white;
+        }
+        .btn-listen:hover { background-color: #13271e; }
+        .btn-download {
+            background-color: #cc9933;
+            color: white;
+        }
+        .btn-download:hover { background-color: #a67c28; }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>الموقع الرسمي فضيلة الشيخ فؤاد الزنتاني</h1>
+        <p>مرجع علمي مستمر لطلاب العلم الشريف</p>
+    </header>
+
+    <div class="container">
+
+        <!-- قسم البث الصوتي المباشر المختصر والثابت -->
+        <div class="live-section">
+            <h2 style="color: #d9534f; margin: 0;">🔴 الإذاعة الصوتية المباشرة</h2>
+            <p style="margin: 5px 0 0 0; color: #666;">عندما يبدأ الشيخ الدرس، اضغط زر التشغيل للاستماع مباشرة</p>
+            
+            <!-- هنا يتم تضمين رابط البث المباشر الثابت (استبدل اسم_قناة_الشيخ برابط قناته الفعلي) -->
+            <iframe class="live-player" src="https://www.youtube.com/embed/live_stream?channel=اسم_قناة_الشيخ" allowfullscreen></iframe>
+        </div>
+
+        <!-- أرشيف ومكتبة المواد العلمية -->
+        <h2>📚 الأرشيف العلمي والدروس</h2>
+
+        <!-- قسم العقيدة -->
+        <h3 class="category-title">أولا: قسم العقيدة</h3>
+        
+        <div class="lesson-card">
+            <div class="lesson-info">
+                <h3>شرح كتاب التوحيد - الدرس الأول</h3>
+                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 15 ميجابايت</p>
+            </div>
+            <div class="lesson-buttons">
+                <!-- استبدل الرابط برابط الملف الفعلي من جوجل درايف -->
+                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
+                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
+            </div>
+        </div>
+
+        <div class="lesson-card">
+            <div class="lesson-info">
+                <h3>شرح كتاب التوحيد - الدرس الثاني</h3>
+                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 18 ميجابايت</p>
+            </div>
+            <div class="lesson-buttons">
+                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
+                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
+            </div>
+        </div>
+
+
+        <!-- قسم الفقه -->
+        <h3 class="category-title">ثانياً: قسم الفقه</h3>
+        
+        <div class="lesson-card">
+            <div class="lesson-info">
+                <h3>شرح متن أبي شجاع - كتاب الطهارة</h3>
+                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 22 ميجابايت</p>
+            </div>
+            <div class="lesson-buttons">
+                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
+                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة للمكتبة العلمية لفضيلة الشيخ فؤاد الزنتاني © 2026</p>
+    </footer>
+
+</body>
+</html>
