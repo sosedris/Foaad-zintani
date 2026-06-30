@@ -1,174 +1,1891 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الموقع الرسمي للشيخ فؤاد الزنتاني</title>
-    <style>
-        /* تنسيقات الألوان والهوية البصرية للموقع */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f6f4;
-            color: #333;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #1e3d2f; /* لون أخضر إسلامي هادئ */
-            color: #ffffff;
-            text-align: center;
-            padding: 2rem 1rem;
-        }
-        header h1 {
-            margin: 0;
-            font-size: 2rem;
-        }
-        header p {
-            margin: 0.5rem 0 0 0;
-            opacity: 0.9;
-        }
-        .container {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        /* قسم البث المباشر */
-        .live-section {
-            background-color: #ffffff;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            text-align: center;
-            margin-bottom: 2rem;
-            border-top: 4px solid #cc9933; /* لمسة ذهبية */
-        }
-        .live-player {
-            width: 100%;
-            max-width: 500px;
-            height: 80px; /* مقاس نحيف يشبه الراديو تماماً */
-            border: none;
-            margin-top: 1rem;
-        }
-        /* أقسام الأرشيف */
-        .category-title {
-            color: #1e3d2f;
-            border-bottom: 2px solid #1e3d2f;
-            padding-bottom: 0.5rem;
-            margin-top: 2rem;
-        }
-        .lesson-card {
-            background-color: #ffffff;
-            border-radius: 6px;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .lesson-info h3 {
-            margin: 0 0 0.5rem 0;
-            font-size: 1.1rem;
-        }
-        .lesson-buttons {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .btn {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        .btn-listen {
-            background-color: #1e3d2f;
-            color: white;
-        }
-        .btn-listen:hover { background-color: #13271e; }
-        .btn-download {
-            background-color: #cc9933;
-            color: white;
-        }
-        .btn-download:hover { background-color: #a67c28; }
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: #666;
-            font-size: 0.9rem;
-        }
-    </style>
-</head>
-<body>
+```react
+import React, { useState, useEffect } from 'react';
+import { 
+  Play, Pause, Volume2, Download, Search, BookOpen, Radio, Tv, Users, 
+  Settings, Plus, Trash2, Edit, Share2, MapPin, Calendar, Clock, 
+  ChevronDown, Menu, X, FileText, BarChart2, Home, Mail, Phone, 
+  ArrowRight, Info, CheckCircle, Award, AlertCircle, Eye, RefreshCw
+} from 'lucide-react';
 
-    <header>
-        <h1>الموقع الرسمي فضيلة الشيخ فؤاد الزنتاني</h1>
-        <p>مرجع علمي مستمر لطلاب العلم الشريف</p>
-    </header>
+// بيانات أولية تجريبية غنية ومتنوعة
+const initialCategories = [
+  { id: '1', name: 'العقيدة' },
+  { id: '2', name: 'الفقه' },
+  { id: '3', name: 'الحديث' },
+  { id: '4', name: 'التفسير' },
+  { id: '5', name: 'السيرة النبوية' },
+  { id: '6', name: 'الرقائق والمواعظ' },
+  { id: '7', name: 'خطب الجمعة' }
+];
 
-    <div class="container">
+const initialSeries = [
+  { id: '1', title: 'شرح كتاب التوحيد للإمام المجدد', categoryId: '1', description: 'سلسلة علمية منهجية تفصيلية في بيان عقيدة أهل السنة والجماعة وشرح مسائل التوحيد وعلاجه للشرك.', lessonsCount: 24, duration: '18 ساعة' },
+  { id: '2', title: 'شرح عمدة الأحكام من كلام خير الأنام', categoryId: '3', description: 'شرح أحاديث الأحكام المتفق عليها بين الإمامين البخاري ومسلم وتبيان فقه الحديث.', lessonsCount: 15, duration: '11 ساعة' },
+  { id: '3', title: 'تسهيل الفقه في المذهب المالكي', categoryId: '2', description: 'دروس مبسطة في الفقه المالكي تتناول الطهارة والصلاة والزكاة والصيام والمعاملات برؤية واضحة.', lessonsCount: 30, duration: '22 ساعة' },
+  { id: '4', title: 'سلسلة السيرة العطرة والدروس المستفادة', categoryId: '5', description: 'وقفات مع المحطات الكبرى في حياة النبي صلى الله عليه وسلم وبناء الأمة والتربية النبوية.', lessonsCount: 12, duration: '9 ساعات' }
+];
 
-        <!-- قسم البث الصوتي المباشر المختصر والثابت -->
-        <div class="live-section">
-            <h2 style="color: #d9534f; margin: 0;">🔴 الإذاعة الصوتية المباشرة</h2>
-            <p style="margin: 5px 0 0 0; color: #666;">عندما يبدأ الشيخ الدرس، اضغط زر التشغيل للاستماع مباشرة</p>
+const initialLectures = [
+  { 
+    id: '101', 
+    title: 'أهمية التوحيد ومكانته في الإسلام', 
+    description: 'الدرس الأول من شرح كتاب التوحيد، ويتناول فضل التوحيد وما يكفر من الذنوب ووجوب الخوف من الشرك.', 
+    seriesId: '1', 
+    categoryId: '1', 
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 
+    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', 
+    duration: '45 دقيقة', 
+    date: '2026-06-15', 
+    location: 'مسجد الشيخ فؤاد الزنتاني - طرابلس', 
+    views: 1240, 
+    downloads: 450, 
+    thumbnail: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400'
+  },
+  { 
+    id: '102', 
+    title: 'تفسير قوله تعالى: وما خلقت الجن والإنس إلا ليعبدون', 
+    description: 'الدرس الثاني من شرح كتاب التوحيد، تفصيل في الغاية العظمى من الخلق والعبادة الحقة والرد على شبهات الملحدين.', 
+    seriesId: '1', 
+    categoryId: '1', 
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 
+    videoUrl: '', 
+    duration: '50 دقيقة', 
+    date: '2026-06-22', 
+    location: 'مسجد الشيخ فؤاد الزنتاني - طرابلس', 
+    views: 980, 
+    downloads: 310, 
+    thumbnail: 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400'
+  },
+  { 
+    id: '103', 
+    title: 'حديث الأعمال بالنيات وفقه مقاصد المكلفين', 
+    description: 'الدرس الأول من شرح كتاب عمدة الأحكام، مدار الإسلام وعقد النية والإخلاص لله تعالى في الأقوال والأعمال.', 
+    seriesId: '2', 
+    categoryId: '3', 
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 
+    videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4', 
+    duration: '40 دقيقة', 
+    date: '2026-06-18', 
+    location: 'مسجد السنة - بنغازي', 
+    views: 1540, 
+    downloads: 620, 
+    thumbnail: 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?auto=format&fit=crop&q=80&w=400'
+  },
+  { 
+    id: '104', 
+    title: 'باب الطهارة وأحكام المياه في الفقه الإسلامي', 
+    description: 'الدرس الأول من كتاب الطهارة، أقسام المياه وما يصح به التطهير والوضوء وما لا يصح، وتوضيح المسائل المعاصرة.', 
+    seriesId: '3', 
+    categoryId: '2', 
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3', 
+    videoUrl: '', 
+    duration: '55 دقيقة', 
+    date: '2026-06-25', 
+    location: 'مسجد التوحيد - سبها', 
+    views: 890, 
+    downloads: 240, 
+    thumbnail: 'https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&q=80&w=400'
+  }
+];
+
+const initialArticles = [
+  { id: '1', title: 'أهمية التمسك بالسنة والمنهج القويم في زمن الفتن', content: 'إن من أعظم النعم التي يمن الله بها على العبد المسلم في أوقات الفتن واضطراب الأفكار هو لزوم السلف الصالح والتمسك بهدي النبي صلى الله عليه وسلم وصحابته الكرام. العلم النافع المقترن بالعمل الصالح هو الحصن المنيع الذي يحفظ العبد من الانجراف وراء الأهواء ومضلات الفتن والمناهج المنحرفة.', date: '2026-06-29', category: 'توجيهات علمية' },
+  { id: '2', title: 'شرح منهج طالب العلم الشرعي: التدرج والأصول', content: 'لا ينال العلم جملة واحدة، ومن رام أخذه جملة ذهب عنه جملة. إن المنهجية السليمة في طلب العلم تبدأ بحفظ المتون الصغيرة وفهمها على الشيوخ والعلماء الموثوقين، ثم الترقي شيئاً فشيئاً دون تعجل أو قفز فوق المراحل الأساسية للبناء العلمي الرصين.', date: '2026-06-20', category: 'منهجية الطلب' }
+];
+
+export default function App() {
+  // حالات النظام الأساسية
+  const [activeTab, setActiveTab] = useState('home');
+  const [adminSubTab, setAdminSubTab] = useState('stats');
+  
+  // البيانات في الذاكرة (تسمح بالإضافة والتعديل والحذف فوراً)
+  const [categories, setCategories] = useState(initialCategories);
+  const [series, setSeries] = useState(initialSeries);
+  const [lectures, setLectures] = useState(initialLectures);
+  const [articles, setArticles] = useState(initialArticles);
+  
+  // حالة البث المباشر
+  const [liveStream, setLiveStream] = useState({
+    isLive: true,
+    title: 'شرح كتاب التوحيد - الباب العاشر في الشرك',
+    description: 'يبث الآن اللقاء الأسبوعي لفضيلة الشيخ فؤاد الزنتاني في مسجد التوحيد بطرابلس. نستقبل أسئلتكم واستفساراتكم.',
+    nextStreamTime: '2026-07-02T18:00:00',
+    streamUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' // محاكاة فيديو بث مباشر
+  });
+
+  // حالة المشغل العائم للصوت والفيديو
+  const [playingAudio, setPlayingAudio] = useState(null);
+  const [audioState, setAudioState] = useState({ isPlaying: false, progress: 0, duration: 0 });
+  const [playingVideo, setPlayingVideo] = useState(null);
+
+  // أدوات البحث والتصفية
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedSeries, setSelectedSeries] = useState('all');
+
+  // نماذج الإضافة والتعديل في الإدارة
+  const [newLecture, setNewLecture] = useState({ title: '', description: '', seriesId: '', categoryId: '', audioUrl: '', videoUrl: '', duration: '', date: '', location: '', thumbnail: '' });
+  const [editingLecture, setEditingLecture] = useState(null);
+  const [newSeries, setNewSeries] = useState({ title: '', categoryId: '', description: '', lessonsCount: '', duration: '' });
+  const [newCategory, setNewCategory] = useState({ name: '' });
+  const [newArticle, setNewArticle] = useState({ title: '', content: '', category: '' });
+
+  // إشعار نجاح العملية أو الفشل
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'success' });
+
+  // نموذج اتصل بنا
+  const [contactForm, setContactForm] = useState({ name: '', email: '', subject: '', message: '' });
+
+  // العداد التنازلي للبث القادم
+  const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const difference = +new Date(liveStream.nextStreamTime) - +new Date();
+      if (difference > 0) {
+        setCountdown({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        });
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [liveStream.nextStreamTime]);
+
+  const showAlert = (message, type = 'success') => {
+    setAlert({ show: true, message, type });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 4000);
+  };
+
+  // دوال مشغل الصوت المحاكي
+  const togglePlayAudio = (lecture) => {
+    if (playingAudio?.id === lecture.id) {
+      setAudioState(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
+    } else {
+      setPlayingAudio(lecture);
+      setAudioState({ isPlaying: true, progress: 30, duration: 2700 }); // محاكاة تشغيل
+      showAlert(`تم تشغيل الدرس: ${lecture.title}`);
+    }
+  };
+
+  // دوال التحميل المحاكي
+  const handleDownload = (lecture) => {
+    setLectures(prev => prev.map(l => l.id === lecture.id ? { ...l, downloads: l.downloads + 1 } : l));
+    showAlert(`بدأ تحميل الملف الصوتي للدرس: ${lecture.title}`);
+  };
+
+  // دوال زيادة المشاهدة المحاكي
+  const triggerView = (lecture) => {
+    setLectures(prev => prev.map(l => l.id === lecture.id ? { ...l, views: l.views + 1 } : l));
+    setPlayingVideo(lecture);
+  };
+
+  // إضافة محاضرة جديدة
+  const handleAddLecture = (e) => {
+    e.preventDefault();
+    if (!newLecture.title || !newLecture.categoryId) {
+      showAlert('يرجى ملء الحقول الأساسية المطلوبة!', 'error');
+      return;
+    }
+    const created = {
+      ...newLecture,
+      id: Date.now().toString(),
+      views: 0,
+      downloads: 0,
+      thumbnail: newLecture.thumbnail || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=400',
+      date: newLecture.date || new Date().toISOString().split('T')[0]
+    };
+    setLectures([created, ...lectures]);
+    showAlert('تمت إضافة المحاضرة الجديدة بنجاح للمكتبة العلمية');
+    setNewLecture({ title: '', description: '', seriesId: '', categoryId: '', audioUrl: '', videoUrl: '', duration: '', date: '', location: '', thumbnail: '' });
+  };
+
+  // تعديل محاضرة
+  const handleUpdateLecture = (e) => {
+    e.preventDefault();
+    setLectures(prev => prev.map(l => l.id === editingLecture.id ? editingLecture : l));
+    showAlert('تم تحديث بيانات المحاضرة بنجاح');
+    setEditingLecture(null);
+  };
+
+  // حذف محاضرة
+  const handleDeleteLecture = (id) => {
+    if (window.confirm('هل أنت متأكد من حذف هذه المحاضرة نهائياً من المكتبة؟')) {
+      setLectures(prev => prev.filter(l => l.id !== id));
+      showAlert('تم حذف المحاضرة من النظام بنجاح', 'error');
+    }
+  };
+
+  // إضافة سلسلة جديدة
+  const handleAddSeries = (e) => {
+    e.preventDefault();
+    if (!newSeries.title) return;
+    const created = {
+      ...newSeries,
+      id: Date.now().toString(),
+      lessonsCount: parseInt(newSeries.lessonsCount) || 0
+    };
+    setSeries([...series, created]);
+    setNewSeries({ title: '', categoryId: '', description: '', lessonsCount: '', duration: '' });
+    showAlert('تم إنشاء السلسلة العلمية الجديدة');
+  };
+
+  // إضافة تصنيف جديد
+  const handleAddCategory = (e) => {
+    e.preventDefault();
+    if (!newCategory.name) return;
+    const created = { id: Date.now().toString(), name: newCategory.name };
+    setCategories([...categories, created]);
+    setNewCategory({ name: '' });
+    showAlert('تمت إضافة التصنيف العلمي الجديد');
+  };
+
+  // إضافة مقال جديد
+  const handleAddArticle = (e) => {
+    e.preventDefault();
+    if (!newArticle.title || !newArticle.content) return;
+    const created = {
+      id: Date.now().toString(),
+      title: newArticle.title,
+      content: newArticle.content,
+      category: newArticle.category || 'توجيهات عامة',
+      date: new Date().toISOString().split('T')[0]
+    };
+    setArticles([created, ...articles]);
+    setNewArticle({ title: '', content: '', category: '' });
+    showAlert('تم نشر المقال العلمي الجديد بنجاح');
+  };
+
+  // تحديث حالة البث المباشر
+  const handleUpdateLiveStream = (e) => {
+    e.preventDefault();
+    showAlert('تم تحديث معطيات البث المباشر وجدولته بنجاح');
+  };
+
+  // إرسال نموذج التواصل
+  const handleContactSubmit = (e) => {
+    e.preventDefault();
+    if (!contactForm.name || !contactForm.message) {
+      showAlert('يرجى كتابة اسمك ونص الرسالة لتصلنا بنجاح', 'error');
+      return;
+    }
+    showAlert('تم إرسال رسالتك بنجاح لفضيلة الشيخ وإدارة الموقع، وسنتواصل معك قريباً');
+    setContactForm({ name: '', email: '', subject: '', message: '' });
+  };
+
+  // تصفية المحاضرات بناء على اختيارات المستخدم
+  const filteredLectures = lectures.filter(lec => {
+    const matchesSearch = lec.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                          lec.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'all' || lec.categoryId === selectedCategory;
+    const matchesSeries = selectedSeries === 'all' || lec.seriesId === selectedSeries;
+    return matchesSearch && matchesCategory && matchesSeries;
+  });
+
+  return (
+    <div dir="rtl" className="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans selection:bg-emerald-800 selection:text-white">
+      
+      {/* شريط الإشعارات اللحظي */}
+      {alert.show && (
+        <div className={`fixed top-4 left-4 right-4 md:left-auto md:w-96 z-50 p-4 rounded-xl shadow-2xl border flex items-center gap-3 animate-bounce transition-all ${
+          alert.type === 'success' ? 'bg-emerald-50 border-emerald-200 text-emerald-800' : 'bg-rose-50 border-rose-200 text-rose-800'
+        }`}>
+          {alert.type === 'success' ? <CheckCircle className="w-6 h-6 shrink-0 text-emerald-600" /> : <AlertCircle className="w-6 h-6 shrink-0 text-rose-600" />}
+          <div className="text-sm font-semibold">{alert.message}</div>
+        </div>
+      )}
+
+      {/* الهيدر العلوي */}
+      <header className="bg-emerald-950 text-white border-b-4 border-amber-500 sticky top-0 z-40 shadow-md">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
+          
+          {/* الشعار والهوية العلمية */}
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => setActiveTab('home')}>
+            <div className="bg-amber-500 text-emerald-950 p-2.5 rounded-full font-bold text-xl shadow-inner border border-amber-200">
+              فز
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-bold text-amber-400 tracking-wide">الموقع الرسمي للشيخ فؤاد الزنتاني</h1>
+              <p className="text-xs text-slate-300 font-light mt-0.5">منصة متكاملة لنشر الدروس والمحاضرات والدعوة السلفية</p>
+            </div>
+          </div>
+
+          {/* البث المباشر ومفتاح الإدارة السريع */}
+          <div className="flex items-center gap-3">
+            {liveStream.isLive ? (
+              <button 
+                onClick={() => setActiveTab('live')}
+                className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-sm px-4 py-2 rounded-full flex items-center gap-2 animate-pulse transition duration-300 shadow-md"
+              >
+                <span className="w-2.5 h-2.5 bg-white rounded-full"></span>
+                بث مباشر الآن
+              </button>
+            ) : (
+              <span className="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-full border border-slate-700">البث المباشر مغلق</span>
+            )}
+
+            <button 
+              onClick={() => setActiveTab('admin')} 
+              className={`text-sm px-4 py-2 rounded-lg font-semibold flex items-center gap-1.5 transition-all ${
+                activeTab === 'admin' 
+                  ? 'bg-amber-500 text-emerald-950' 
+                  : 'bg-emerald-800 hover:bg-emerald-700 text-white border border-emerald-700'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              لوحة التحكم
+            </button>
+          </div>
+        </div>
+
+        {/* شريط التنقل الأساسي للمستخدم */}
+        <div className="bg-emerald-900 border-t border-emerald-850">
+          <div className="max-w-7xl mx-auto px-2 overflow-x-auto flex scrollbar-none whitespace-nowrap">
+            {[
+              { id: 'home', label: 'الرئيسية', icon: Home },
+              { id: 'live', label: 'البث المباشر', icon: Radio },
+              { id: 'archive', label: 'أرشيف الدروس والمحاضرات', icon: BookOpen },
+              { id: 'series', label: 'السلاسل العلمية', icon: Tv },
+              { id: 'articles', label: 'المقالات والفوائد', icon: FileText },
+              { id: 'about', label: 'عن الشيخ', icon: Info },
+              { id: 'contact', label: 'اتصل بنا', icon: Mail }
+            ].map(item => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => setActiveTab(item.id)}
+                  className={`px-5 py-3 text-sm font-medium flex items-center gap-2 transition duration-200 border-b-2 hover:text-amber-400 ${
+                    activeTab === item.id 
+                      ? 'border-amber-500 text-amber-400 bg-emerald-950/50' 
+                      : 'border-transparent text-slate-100'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </header>
+
+      {/* محتوى الصفحات */}
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:py-8">
+        
+        {/* صفحة الرئيسية */}
+        {activeTab === 'home' && (
+          <div className="space-y-8 animate-fadeIn">
             
-            <!-- هنا يتم تضمين رابط البث المباشر الثابت (استبدل اسم_قناة_الشيخ برابط قناته الفعلي) -->
-            <iframe class="live-player" src="https://www.youtube.com/embed/live_stream?channel=اسم_قناة_الشيخ" allowfullscreen></iframe>
+            {/* البانر التعريفي للشيخ فؤاد الزنتاني */}
+            <div className="bg-gradient-to-r from-emerald-900 via-emerald-950 to-slate-950 text-white rounded-3xl p-6 md:p-10 shadow-xl relative overflow-hidden border-b-4 border-amber-500">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-800/10 rounded-full blur-3xl"></div>
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                
+                <div className="lg:col-span-2 space-y-4">
+                  <span className="bg-amber-500 text-emerald-950 text-xs font-extrabold px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    المنبر العلمي السلفي
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-black text-amber-400 leading-tight">
+                    مرحباً بكم في منصة <br /> فضيلة الشيخ فؤاد الزنتاني
+                  </h2>
+                  <p className="text-slate-200 text-base md:text-lg max-w-2xl leading-relaxed">
+                    نسعى من خلال هذا الموقع لنشر العقيدة الصحيحة، وتأصيل طلب العلم الشرعي على منهج السلف الصالح، وتسهيل الوصول لجميع الشروح الصوتية والمكتوبة وتسهيل تحميلها ومتابعتها.
+                  </p>
+                  <div className="flex flex-wrap gap-3 pt-2">
+                    <button onClick={() => setActiveTab('archive')} className="bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold px-6 py-3 rounded-xl transition shadow-lg flex items-center gap-2">
+                      <BookOpen className="w-5 h-5" />
+                      تصفح أرشيف الدروس
+                    </button>
+                    <button onClick={() => setActiveTab('live')} className="bg-emerald-800/80 hover:bg-emerald-800 text-white border border-emerald-600 font-bold px-6 py-3 rounded-xl transition flex items-center gap-2">
+                      <Radio className="w-5 h-5" />
+                      متابعة البث المباشر
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 space-y-4 shadow-2xl">
+                  <h3 className="text-lg font-bold text-amber-400 border-b border-white/10 pb-2 flex items-center gap-2">
+                    <Calendar className="w-5 h-5" />
+                    التقويم الدعوي الأسبوعي
+                  </h3>
+                  <ul className="space-y-3 text-sm text-slate-300">
+                    <li className="flex justify-between items-center bg-white/5 p-2 rounded">
+                      <span>السبت: شرح كتاب التوحيد</span>
+                      <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">6:00 م</span>
+                    </li>
+                    <li className="flex justify-between items-center bg-white/5 p-2 rounded">
+                      <span>الإثنين: عمدة الأحكام</span>
+                      <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">6:30 م</span>
+                    </li>
+                    <li className="flex justify-between items-center bg-white/5 p-2 rounded">
+                      <span>الجمعة: خطبة وصلاة الجمعة</span>
+                      <span className="text-xs bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">12:30 م</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* شريط البحث السريع المتقدم */}
+            <div className="bg-white rounded-2xl p-4 md:p-6 shadow-md border border-slate-200 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+              <div className="relative">
+                <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                  <Search className="w-5 h-5" />
+                </span>
+                <input 
+                  type="text"
+                  placeholder="ابحث عن عنوان درس أو موضوع علمي..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pr-10 pl-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 text-sm"
+                />
+              </div>
+
+              <div>
+                <select 
+                  value={selectedCategory} 
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full px-3 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:border-emerald-600 text-sm"
+                >
+                  <option value="all">كل التصنيفات العلمية</option>
+                  {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                </select>
+              </div>
+
+              <button 
+                onClick={() => setActiveTab('archive')} 
+                className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition flex items-center justify-center gap-2"
+              >
+                انتقال لتصفية النتائج
+              </button>
+            </div>
+
+            {/* أحدث التسجيلات والمحاضرات المضافة */}
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <div className="space-y-1">
+                  <h3 className="text-2xl font-extrabold text-emerald-950 flex items-center gap-2">
+                    <BookOpen className="w-6 h-6 text-amber-500" />
+                    أحدث المحاضرات والدروس العلمية
+                  </h3>
+                  <p className="text-sm text-slate-500">تمت إضافتها وتدقيقها مؤخراً لطلاب العلم</p>
+                </div>
+                <button onClick={() => setActiveTab('archive')} className="text-sm font-bold text-emerald-700 hover:text-emerald-900 flex items-center gap-1">
+                  شاهد الأرشيف بالكامل &larr;
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {lectures.slice(0, 3).map(lecture => (
+                  <div key={lecture.id} className="bg-white rounded-2xl shadow-md overflow-hidden border border-slate-100 flex flex-col hover:shadow-xl transition-all duration-300">
+                    <div className="relative h-48 bg-slate-100">
+                      <img src={lecture.thumbnail} alt={lecture.title} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-900/30 to-transparent"></div>
+                      <span className="absolute top-3 right-3 bg-emerald-900 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        {categories.find(c => c.id === lecture.categoryId)?.name || 'عام'}
+                      </span>
+                      {lecture.videoUrl && (
+                        <span className="absolute bottom-3 left-3 bg-rose-600 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                          <Tv className="w-3.5 h-3.5" /> مرئي
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <h4 className="text-lg font-bold text-slate-900 line-clamp-1">{lecture.title}</h4>
+                        <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed">{lecture.description}</p>
+                      </div>
+
+                      <div className="space-y-3 pt-3 border-t border-slate-100">
+                        <div className="flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+                          <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {lecture.date}</span>
+                          <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {lecture.duration}</span>
+                          <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-rose-500" /> {lecture.location}</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 pt-1">
+                          <button 
+                            onClick={() => togglePlayAudio(lecture)}
+                            className="flex-1 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-1"
+                          >
+                            <Play className="w-3.5 h-3.5" />
+                            استماع للمحاضرة
+                          </button>
+                          {lecture.videoUrl && (
+                            <button 
+                              onClick={() => triggerView(lecture)}
+                              className="flex-1 bg-amber-500 hover:bg-amber-600 text-emerald-950 text-xs font-bold py-2.5 rounded-lg transition flex items-center justify-center gap-1"
+                            >
+                              <Tv className="w-3.5 h-3.5" />
+                              مشاهدة المرئي
+                            </button>
+                          )}
+                          <button 
+                            onClick={() => handleDownload(lecture)}
+                            className="bg-slate-100 hover:bg-slate-200 text-slate-700 p-2.5 rounded-lg transition"
+                            title="تحميل المادة الصوتية"
+                          >
+                            <Download className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* قسم السلاسل العلمية المميزة */}
+            <div className="bg-slate-100 rounded-3xl p-6 md:p-8">
+              <div className="flex justify-between items-center mb-6">
+                <div>
+                  <h3 className="text-2xl font-extrabold text-emerald-950">السلاسل العلمية المتكاملة</h3>
+                  <p className="text-sm text-slate-500">منهجية علمية كاملة مقسمة ومبوبة ليسهل دراستها والترقي فيها</p>
+                </div>
+                <button onClick={() => setActiveTab('series')} className="text-sm font-bold text-emerald-700 hover:text-emerald-950">كل السلاسل العلمية &larr;</button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {series.slice(0, 4).map(s => (
+                  <div key={s.id} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+                    <div className="space-y-3">
+                      <span className="text-xs bg-amber-500/10 text-amber-800 font-extrabold px-3 py-1 rounded-full">
+                        {categories.find(c => c.id === s.categoryId)?.name || 'تصنيف عام'}
+                      </span>
+                      <h4 className="text-xl font-bold text-slate-900">{s.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed">{s.description}</p>
+                    </div>
+                    <div className="flex items-center justify-between pt-4 mt-4 border-t border-slate-100 text-xs text-slate-500">
+                      <span className="bg-slate-100 px-3 py-1 rounded-full font-semibold">{s.lessonsCount} درساً علمياً</span>
+                      <span className="bg-slate-100 px-3 py-1 rounded-full font-semibold">{s.duration} ساعة شرح</span>
+                      <button 
+                        onClick={() => {
+                          setSelectedSeries(s.id);
+                          setActiveTab('archive');
+                        }}
+                        className="text-emerald-800 font-extrabold flex items-center gap-1 hover:underline"
+                      >
+                        عرض دروس السلسلة &larr;
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* أحدث المقالات والفوائد والأسئلة الشائعة */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              <div className="lg:col-span-2 space-y-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-xl font-extrabold text-emerald-950">جديد المقالات والفوائد العلمية</h3>
+                  <button onClick={() => setActiveTab('articles')} className="text-xs font-bold text-emerald-700 hover:underline">جميع المقالات</button>
+                </div>
+                
+                <div className="space-y-4">
+                  {articles.map(article => (
+                    <div key={article.id} className="bg-white rounded-2xl p-5 border border-slate-150 shadow-sm space-y-3">
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs bg-emerald-50 text-emerald-800 px-2.5 py-1 rounded-lg font-bold">{article.category}</span>
+                        <span className="text-xs text-slate-400 flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
+                      </div>
+                      <h4 className="text-lg font-bold text-slate-950 hover:text-emerald-800 cursor-pointer">{article.title}</h4>
+                      <p className="text-slate-600 text-sm leading-relaxed line-clamp-3">{article.content}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* بطاقة الأسئلة الشائعة والروابط */}
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                <h3 className="text-xl font-extrabold text-emerald-950 border-b border-slate-100 pb-2">روابط سريعة تفيدك</h3>
+                
+                <div className="space-y-4">
+                  <div className="p-3 bg-amber-500/5 rounded-xl border border-amber-500/10 space-y-1">
+                    <h4 className="text-sm font-bold text-slate-900">هل يمكن تحميل المواد مباشرة؟</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">نعم، جميع المواد الصوتية متاحة بصيغة MP3 للتحميل المجاني المباشر دون أي قيود.</p>
+                  </div>
+                  <div className="p-3 bg-amber-500/5 rounded-xl border border-amber-500/10 space-y-1">
+                    <h4 className="text-sm font-bold text-slate-900">كيف أشارك بالبث المباشر؟</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">تابع صفحة "البث المباشر" في موعد الدروس الأسبوعية وسيتم تشغيل الصوت والفيديو مباشرة.</p>
+                  </div>
+                  <div className="p-3 bg-amber-500/5 rounded-xl border border-amber-500/10 space-y-1">
+                    <h4 className="text-sm font-bold text-slate-900">كيف أتواصل مع الشيخ؟</h4>
+                    <p className="text-xs text-slate-600 leading-relaxed">عبر نموذج المراسلة في صفحة "اتصل بنا" أو أرقام التواصل والبريد المتاحة.</p>
+                  </div>
+                </div>
+
+                <div className="bg-emerald-900 rounded-2xl p-4 text-white text-center">
+                  <h4 className="font-bold text-amber-400 mb-1">انضم لطلاب العلم</h4>
+                  <p className="text-xs text-slate-300 mb-3">احصل على تنبيهات البث المباشر ومواعيد الدروس مباشرة عبر التيليجرام والواتساب.</p>
+                  <button onClick={() => setActiveTab('contact')} className="bg-white text-emerald-900 text-xs font-bold px-4 py-2 rounded-lg hover:bg-slate-100 transition">تواصل معنا الآن</button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
+        {/* صفحة البث المباشر */}
+        {activeTab === 'live' && (
+          <div className="space-y-8 animate-fadeIn">
+            <div className="bg-gradient-to-br from-slate-900 to-slate-950 text-white rounded-3xl p-6 md:p-8 shadow-2xl relative border-b-4 border-rose-600">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                
+                {/* مشغل البث المباشر (محاكاة) */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3.5 h-3.5 bg-rose-600 rounded-full animate-ping"></span>
+                      <span className="bg-rose-600 text-white font-extrabold text-xs px-3 py-1 rounded-full">بث مباشر الآن</span>
+                    </div>
+                    <span className="text-xs text-slate-400 flex items-center gap-1">
+                      <Users className="w-4 h-4 text-amber-500" /> 184 طالب يستمعون الآن
+                    </span>
+                  </div>
+
+                  {/* مشغل محاكاة فيديو البث المباشر */}
+                  <div className="aspect-video bg-black rounded-2xl overflow-hidden relative border border-slate-800 flex items-center justify-center">
+                    {liveStream.isLive ? (
+                      <video 
+                        src={liveStream.streamUrl} 
+                        controls 
+                        autoPlay 
+                        muted 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="text-center p-8">
+                        <Radio className="w-16 h-16 text-slate-600 mx-auto mb-4 animate-pulse" />
+                        <h4 className="text-xl font-bold text-slate-300">البث المباشر متوقف حالياً</h4>
+                        <p className="text-sm text-slate-500 mt-1">يرجى متابعة جدول البث والعداد التنازلي للموعد القادم</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* تفاصيل البث الحالي والعداد التنازلي */}
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <span className="text-amber-400 text-xs font-bold block">موضوع الدرس الجاري حالياً:</span>
+                    <h3 className="text-2xl font-bold leading-tight">{liveStream.title}</h3>
+                    <p className="text-slate-300 text-sm leading-relaxed">{liveStream.description}</p>
+                  </div>
+
+                  <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-4">
+                    <h4 className="text-xs text-amber-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                      <Clock className="w-4 h-4" />
+                      موعد اللقاء الدعوي القادم
+                    </h4>
+                    <p className="text-sm text-slate-200">اللقاء الأسبوعي: يوم الخميس القادم الساعة 6:00 مساءً بتوقيت مكة المكرمة.</p>
+                    
+                    {/* العداد التنازلي الجميل */}
+                    <div className="grid grid-cols-4 gap-2 text-center">
+                      <div className="bg-slate-900/60 p-2 rounded-xl border border-white/5">
+                        <span className="block text-xl font-bold text-amber-400">{countdown.days}</span>
+                        <span className="text-[10px] text-slate-400">يوم</span>
+                      </div>
+                      <div className="bg-slate-900/60 p-2 rounded-xl border border-white/5">
+                        <span className="block text-xl font-bold text-amber-400">{countdown.hours}</span>
+                        <span className="text-[10px] text-slate-400">ساعة</span>
+                      </div>
+                      <div className="bg-slate-900/60 p-2 rounded-xl border border-white/5">
+                        <span className="block text-xl font-bold text-amber-400">{countdown.minutes}</span>
+                        <span className="text-[10px] text-slate-400">دقيقة</span>
+                      </div>
+                      <div className="bg-slate-900/60 p-2 rounded-xl border border-white/5">
+                        <span className="block text-xl font-bold text-amber-400">{countdown.seconds}</span>
+                        <span className="text-[10px] text-slate-400">ثانية</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2 pt-2">
+                    <p className="text-xs text-slate-400">قنوات البث البديلة في حال انقطاع الخدمة:</p>
+                    <div className="flex gap-2">
+                      <a href="#youtube" onClick={() => showAlert('جاري التحويل لقناة اليوتيوب الرسمية')} className="flex-1 bg-red-600 hover:bg-red-700 text-white text-xs font-bold py-2 rounded-lg text-center transition">
+                        YouTube Live
+                      </a>
+                      <a href="#facebook" onClick={() => showAlert('جاري التحويل لصفحة الفيسبوك الرسمية')} className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold py-2 rounded-lg text-center transition">
+                        Facebook Live
+                      </a>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* صفحة أرشيف الدروس والمحاضرات (متقدمة) */}
+        {activeTab === 'archive' && (
+          <div className="space-y-8 animate-fadeIn">
+            
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-200 pb-5">
+              <div>
+                <h2 className="text-3xl font-extrabold text-emerald-950">أرشيف المحاضرات والدروس</h2>
+                <p className="text-slate-500 text-sm mt-1">البحث المتقدم والتصنيف الدقيق لجميع المواد العلمية المسجلة</p>
+              </div>
+              
+              <div className="flex flex-wrap gap-2 w-full md:w-auto">
+                <button 
+                  onClick={() => { setSelectedCategory('all'); setSelectedSeries('all'); setSearchQuery(''); }}
+                  className="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-lg transition"
+                >
+                  إعادة تعيين الفلاتر
+                </button>
+              </div>
+            </div>
+
+            {/* نظام التصفية والبحث المتقدم */}
+            <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-600">البحث بالنص</label>
+                <div className="relative">
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                    <Search className="w-4 h-4" />
+                  </span>
+                  <input 
+                    type="text"
+                    placeholder="ابحث بالعنوان أو الكلمات المفتاحية..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pr-9 pl-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-600">التصنيف العلمي</label>
+                <select 
+                  value={selectedCategory} 
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                >
+                  <option value="all">كل التصنيفات</option>
+                  {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                </select>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-600">السلسلة العلمية</label>
+                <select 
+                  value={selectedSeries} 
+                  onChange={(e) => setSelectedSeries(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                >
+                  <option value="all">كل السلاسل</option>
+                  {series.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                </select>
+              </div>
+
+              <div className="flex items-end">
+                <div className="bg-emerald-50 text-emerald-800 text-xs font-bold p-3 rounded-xl border border-emerald-200 w-full text-center">
+                  عدد المواد المصفاة: {filteredLectures.length} مادة علمية
+                </div>
+              </div>
+            </div>
+
+            {/* قائمة المواد المعروضة */}
+            {filteredLectures.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredLectures.map(lecture => (
+                  <div key={lecture.id} className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col justify-between hover:shadow-md transition">
+                    <div className="p-5 space-y-4">
+                      
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs bg-emerald-100 text-emerald-900 font-bold px-3 py-1 rounded-full">
+                          {categories.find(c => c.id === lecture.categoryId)?.name || 'عام'}
+                        </span>
+                        <span className="text-xs text-slate-400 flex items-center gap-1">
+                          <Calendar className="w-3.5 h-3.5" /> {lecture.date}
+                        </span>
+                      </div>
+
+                      <div className="space-y-1">
+                        <h3 className="text-lg font-bold text-slate-950 line-clamp-1">{lecture.title}</h3>
+                        <p className="text-xs text-amber-600 font-semibold">
+                          {series.find(s => s.id === lecture.seriesId)?.title || 'محاضرة منفردة'}
+                        </p>
+                        <p className="text-slate-600 text-sm line-clamp-3 leading-relaxed mt-2">{lecture.description}</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2 text-xs text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100">
+                        <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-emerald-600" /> {lecture.duration}</span>
+                        <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5 text-rose-500" /> {lecture.location}</span>
+                        <span className="flex items-center gap-1"><Eye className="w-3.5 h-3.5" /> {lecture.views} مشاهدة</span>
+                        <span className="flex items-center gap-1"><Download className="w-3.5 h-3.5" /> {lecture.downloads} تحميل</span>
+                      </div>
+
+                    </div>
+
+                    <div className="bg-slate-50 px-5 py-4 border-t border-slate-100 flex items-center gap-2">
+                      <button 
+                        onClick={() => togglePlayAudio(lecture)}
+                        className="flex-1 bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1"
+                      >
+                        <Play className="w-3.5 h-3.5" />
+                        استماع MP3
+                      </button>
+                      
+                      {lecture.videoUrl && (
+                        <button 
+                          onClick={() => triggerView(lecture)}
+                          className="flex-1 bg-amber-500 hover:bg-amber-600 text-emerald-950 text-xs font-bold py-2.5 rounded-xl transition flex items-center justify-center gap-1"
+                        >
+                          <Tv className="w-3.5 h-3.5" />
+                          عرض المرئي
+                        </button>
+                      )}
+
+                      <button 
+                        onClick={() => handleDownload(lecture)}
+                        className="bg-white hover:bg-slate-100 text-slate-700 p-2.5 rounded-xl border border-slate-200 transition"
+                        title="تحميل مباشر MP3"
+                      >
+                        <Download className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
+                <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                <h4 className="text-xl font-bold text-slate-800">عذراً، لم نجد أي مادة علمية تطابق بحثك</h4>
+                <p className="text-sm text-slate-500 mt-2">يرجى تعديل الكلمات المفتاحية أو اختيار تصنيف علمي مغاير.</p>
+              </div>
+            )}
+
+          </div>
+        )}
+
+        {/* صفحة السلاسل العلمية */}
+        {activeTab === 'series' && (
+          <div className="space-y-8 animate-fadeIn">
+            <div>
+              <h2 className="text-3xl font-extrabold text-emerald-950">السلاسل والشروح العلمية الكاملة</h2>
+              <p className="text-slate-500 text-sm mt-1">تسهيلاً لطلاب العلم في تتبع الدروس خطوة بخطوة</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {series.map(s => (
+                <div key={s.id} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs bg-amber-500/10 text-amber-950 font-extrabold px-3 py-1.5 rounded-full">
+                        {categories.find(c => c.id === s.categoryId)?.name || 'تصنيف عام'}
+                      </span>
+                      <span className="text-xs text-emerald-800 font-bold bg-emerald-50 px-3 py-1 rounded-full">
+                        {s.lessonsCount} درس مسجل
+                      </span>
+                    </div>
+
+                    <h3 className="text-xl font-extrabold text-slate-900">{s.title}</h3>
+                    <p className="text-slate-600 text-sm leading-relaxed">{s.description}</p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-6 mt-6 border-t border-slate-100">
+                    <span className="text-xs text-slate-400">المدة التقديرية: {s.duration}</span>
+                    
+                    <button 
+                      onClick={() => {
+                        setSelectedSeries(s.id);
+                        setActiveTab('archive');
+                      }}
+                      className="bg-emerald-900 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition"
+                    >
+                      عرض دروس السلسلة العلمية
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* صفحة المقالات والفوائد */}
+        {activeTab === 'articles' && (
+          <div className="space-y-8 animate-fadeIn">
+            <div>
+              <h2 className="text-3xl font-extrabold text-emerald-950">المقالات والفوائد والردود العلمية</h2>
+              <p className="text-slate-500 text-sm mt-1">توجيهات دعوية ومقالات منهجية لفضيلة الشيخ فؤاد الزنتاني</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              <div className="lg:col-span-2 space-y-6">
+                {articles.map(article => (
+                  <article key={article.id} className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                    <div className="flex justify-between items-center text-xs text-slate-400">
+                      <span className="bg-emerald-50 text-emerald-800 font-bold px-3 py-1 rounded-full">{article.category}</span>
+                      <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> {article.date}</span>
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-slate-950 leading-tight">{article.title}</h3>
+                    <p className="text-slate-700 text-base leading-relaxed whitespace-pre-line">{article.content}</p>
+                    
+                    <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
+                      <span className="text-xs text-slate-400">المصدر: القسم العلمي بموقع الشيخ فؤاد الزنتاني</span>
+                      <button onClick={() => showAlert('تم نسخ رابط المقال لمشاركته')} className="text-xs font-bold text-emerald-700 flex items-center gap-1">
+                        <Share2 className="w-3.5 h-3.5" /> مشاركة الفائدة
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                  <h4 className="text-lg font-bold text-emerald-950 pb-2 border-b border-slate-100">مواضيع تهمك</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {['العقيدة السلفية', 'منهج السلف', 'توجيهات علمية', 'ردود علمية', 'فتاوى معاصرة', 'أحكام الأسرة', 'تربية الأبناء'].map((tag, idx) => (
+                      <span key={idx} className="bg-slate-100 hover:bg-slate-200 cursor-pointer text-slate-700 text-xs font-medium px-3 py-1.5 rounded-lg transition">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-tr from-amber-500 to-amber-600 text-emerald-950 rounded-3xl p-6 shadow-md space-y-3">
+                  <Award className="w-8 h-8" />
+                  <h4 className="text-lg font-bold">وصية لطلاب العلم</h4>
+                  <p className="text-xs leading-relaxed font-medium">"عليكم بتقوى الله جل وعلا ولزوم غرز كبار أهل العلم، والتأدب بأدب الطلب، والابتعاد عن مواطن الجدال والخصام فإنها تذهب ببركة العلم ومودة القلوب."</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* صفحة التعريف بالشيخ */}
+        {activeTab === 'about' && (
+          <div className="space-y-8 animate-fadeIn">
+            <div className="bg-white rounded-3xl p-6 md:p-10 border border-slate-200 shadow-sm space-y-8">
+              
+              <div className="flex flex-col lg:flex-row gap-8 items-center lg:items-start">
+                <div className="w-48 h-48 bg-emerald-900 rounded-2xl flex items-center justify-center text-white text-5xl font-black shadow-inner shrink-0 border-4 border-amber-500">
+                  فز
+                </div>
+
+                <div className="space-y-4 text-center lg:text-right">
+                  <h2 className="text-3xl font-extrabold text-emerald-950">ترجمة وفضائل الشيخ فؤاد الزنتاني</h2>
+                  <p className="text-amber-600 font-bold text-lg">داعية وإمام وخطيب بمساجد طرابلس وليبيا</p>
+                  <p className="text-slate-600 text-sm md:text-base leading-relaxed max-w-3xl">
+                    قضى الشيخ فؤاد الزنتاني عقوداً من عمره في الدعوة إلى الله جل وعلا، ونشر عقيدة أهل السنة والجماعة، ومحاربة البدع والمنهجيات الدخيلة على المجتمع المسلم. تميز بأسلوبه العلمي المتأصل وشرحه الواضح لأمهات كتب العلم الشرعي.
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-slate-100">
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-emerald-900 border-r-4 border-amber-500 pr-3">المراحل والمسيرة العلمية</h3>
+                  <ul className="space-y-3 text-sm text-slate-700">
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-emerald-800 text-white p-1 rounded font-bold text-xs">١</span>
+                      <p>حفظ القرآن الكريم في سن مبكرة والتردد على حلقات المشايخ في المساجد الكبرى بليبيا.</p>
+                    </li>
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-emerald-800 text-white p-1 rounded font-bold text-xs">٢</span>
+                      <p>دراسة العلوم الشرعية والعربية والتركيز الفائق على علم العقيدة السلفية والحديث النبوي الشريف.</p>
+                    </li>
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-emerald-800 text-white p-1 rounded font-bold text-xs">٣</span>
+                      <p>ملازمة شروح كبار العلماء والتردد على مجالس العلم داخل وخارج ليبيا لتعزيز البناء والتحصيل العلمي.</p>
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-emerald-900 border-r-4 border-amber-500 pr-3">أبرز الأنشطة والدورات الدعوية</h3>
+                  <ul className="space-y-3 text-sm text-slate-700">
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-amber-500 text-emerald-950 p-1 rounded font-bold text-xs">✓</span>
+                      <p>إلقاء خطب الجمعة في مساجد طرابلس والتوجيه والوعظ المباشر للأمة الإسلامية.</p>
+                    </li>
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-amber-500 text-emerald-950 p-1 rounded font-bold text-xs">✓</span>
+                      <p>إقامة الدورات العلمية المنهجية المكثفة في فترات الصيف والعطلات للشباب وطلاب العلم.</p>
+                    </li>
+                    <li className="flex items-start gap-2 bg-slate-50 p-3 rounded-lg">
+                      <span className="bg-amber-500 text-emerald-950 p-1 rounded font-bold text-xs">✓</span>
+                      <p>الإشراف العلمي والتدقيق على المواد السمعية والمكتوبة المنشورة على وسائل التواصل المتنوعة.</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* صفحة اتصل بنا */}
+        {activeTab === 'contact' && (
+          <div className="space-y-8 animate-fadeIn">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              
+              <div className="lg:col-span-2 bg-white rounded-3xl p-6 md:p-8 border border-slate-200 shadow-sm space-y-6">
+                <div>
+                  <h2 className="text-2xl font-extrabold text-emerald-950">راسل فضيلة الشيخ وإدارة الموقع</h2>
+                  <p className="text-slate-500 text-sm mt-1">نسعد باستقبال اقتراحاتكم، ملاحظاتكم، وأسئلتكم العلمية</p>
+                </div>
+
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-600">الاسم الكريم *</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={contactForm.name}
+                        onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
+                        placeholder="اكتب اسمك الثلاثي..."
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-xs font-bold text-slate-600">البريد الإلكتروني (اختياري)</label>
+                      <input 
+                        type="email" 
+                        value={contactForm.email}
+                        onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
+                        placeholder="yourname@domain.com"
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-600">موضوع الرسالة</label>
+                    <input 
+                      type="text" 
+                      value={contactForm.subject}
+                      onChange={(e) => setContactForm({...contactForm, subject: e.target.value})}
+                      placeholder="استفسار علمي، اقتراح للموقع، طلب دورة..."
+                      className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="text-xs font-bold text-slate-600">نص الرسالة أو الاستفسار المكتوب *</label>
+                    <textarea 
+                      rows="5" 
+                      required
+                      value={contactForm.message}
+                      onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
+                      placeholder="اكتب رسالتك وتفاصيل استفسارك العلمي هنا..."
+                      className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-1 focus:ring-emerald-600 focus:outline-none"
+                    ></textarea>
+                  </div>
+
+                  <button type="submit" className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+                    إرسال الرسالة الآن لفضيلة الشيخ
+                  </button>
+                </form>
+              </div>
+
+              <div className="space-y-6">
+                <div className="bg-emerald-950 text-white rounded-3xl p-6 shadow-md space-y-6">
+                  <h3 className="text-xl font-bold text-amber-400">بيانات الاتصال المباشرة</h3>
+                  
+                  <div className="space-y-4 text-sm">
+                    <div className="flex items-center gap-3">
+                      <div className="bg-emerald-850 p-2 rounded-lg text-amber-400">
+                        <MapPin className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-200">مقر إلقاء الدروس</h4>
+                        <p className="text-xs text-slate-300 mt-0.5">مسجد التوحيد، طرابلس، ليبيا</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="bg-emerald-850 p-2 rounded-lg text-amber-400">
+                        <Phone className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-200">الاستفسارات والدعوة</h4>
+                        <p className="text-xs text-slate-300 mt-0.5">+218 91 000 0000</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="bg-emerald-850 p-2 rounded-lg text-amber-400">
+                        <Mail className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-slate-200">البريد الإلكتروني</h4>
+                        <p className="text-xs text-slate-300 mt-0.5">info@sheikh-fouad.ly</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                  <h4 className="font-bold text-slate-900">مواقع التواصل الرسمية للشيخ</h4>
+                  <div className="space-y-2">
+                    <button onClick={() => showAlert('جاري الانتقال لصفحة فيسبوك الرسمية')} className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-lg text-right px-4">
+                      صفحة الفيسبوك الرسمية للشيخ
+                    </button>
+                    <button onClick={() => showAlert('جاري الانتقال لقناة تيليجرام الرسمية')} className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-lg text-right px-4">
+                      قناة التليجرام لنشر الفوائد والبطاقات
+                    </button>
+                    <button onClick={() => showAlert('جاري الانتقال لقناة اليوتيوب الرسمية')} className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold py-2 rounded-lg text-right px-4">
+                      قناة اليوتيوب لتسجيلات البث المباشر
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        )}
+
+        {/* لوحة التحكم الإدارية المتكاملة */}
+        {activeTab === 'admin' && (
+          <div className="space-y-8 animate-fadeIn">
+            
+            <div className="bg-gradient-to-r from-emerald-950 to-emerald-900 text-white rounded-3xl p-6 md:p-8 border-b-4 border-amber-500 shadow-lg">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold text-amber-400">لوحة التحكم وإدارة المحتوى</h2>
+                  <p className="text-slate-300 text-sm mt-1">تعديل وإدارة منصة الشيخ فؤاد الزنتاني بشكل متكامل دون الحاجة لأكواد برمجية</p>
+                </div>
+                <div className="bg-emerald-900 px-4 py-2 rounded-xl border border-emerald-800 text-sm font-bold flex items-center gap-1.5">
+                  <Users className="w-4 h-4 text-amber-500" />
+                  رتبة المستخدم: مدير النظام
+                </div>
+              </div>
+
+              {/* أزرار الانتقال بين الأقسام الفرعية في لوحة التحكم */}
+              <div className="flex flex-wrap gap-2 mt-6">
+                {[
+                  { id: 'stats', label: 'الإحصائيات والتقارير', icon: BarChart2 },
+                  { id: 'lectures', label: 'إدارة المحاضرات والدروس', icon: BookOpen },
+                  { id: 'live-control', label: 'إدارة البث المباشر', icon: Radio },
+                  { id: 'series', label: 'إدارة السلاسل والتصنيفات', icon: Tv },
+                  { id: 'articles', label: 'إدارة المقالات والأخبار', icon: FileText }
+                ].map(sub => {
+                  const Icon = sub.icon;
+                  return (
+                    <button
+                      key={sub.id}
+                      onClick={() => setAdminSubTab(sub.id)}
+                      className={`px-4 py-2.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5 ${
+                        adminSubTab === sub.id 
+                          ? 'bg-amber-500 text-emerald-950' 
+                          : 'bg-emerald-900/50 hover:bg-emerald-800 text-white border border-emerald-800/80'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      {sub.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* محتوى قسم الإحصائيات في لوحة التحكم */}
+            {adminSubTab === 'stats' && (
+              <div className="space-y-8">
+                
+                {/* كروت الأرقام الإجمالية */}
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-1">
+                    <span className="text-slate-500 text-xs font-bold">إجمالي المحاضرات</span>
+                    <h3 className="text-3xl font-black text-emerald-950">{lectures.length} محاضرة</h3>
+                    <div className="text-xs text-emerald-800 font-semibold mt-1">تحديث لحظي ومستمر</div>
+                  </div>
+                  <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-1">
+                    <span className="text-slate-500 text-xs font-bold">إجمالي السلاسل العلمية</span>
+                    <h3 className="text-3xl font-black text-emerald-950">{series.length} سلسلة</h3>
+                    <div className="text-xs text-emerald-800 font-semibold mt-1">مقسمة ومبوبة منهجياً</div>
+                  </div>
+                  <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-1">
+                    <span className="text-slate-500 text-xs font-bold">إجمالي مرات التحميل</span>
+                    <h3 className="text-3xl font-black text-emerald-950">
+                      {lectures.reduce((acc, curr) => acc + curr.downloads, 0)} تحميل
+                    </h3>
+                    <div className="text-xs text-emerald-800 font-semibold mt-1">للمواد الصوتية MP3</div>
+                  </div>
+                  <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-1">
+                    <span className="text-slate-500 text-xs font-bold">إجمالي المشاهدات والزيارات</span>
+                    <h3 className="text-3xl font-black text-emerald-950">
+                      {lectures.reduce((acc, curr) => acc + curr.views, 0)} مشاهدة
+                    </h3>
+                    <div className="text-xs text-emerald-800 font-semibold mt-1">للمواد الصوتية والمرئية</div>
+                  </div>
+                </div>
+
+                {/* رسم بياني ومؤشرات رقمية مبسطة */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  
+                  {/* المواد الأكثر تحميلاً */}
+                  <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">أكثر المواد العلمية تحميلاً واستماعاً</h3>
+                    <div className="space-y-4">
+                      {lectures.slice(0, 3).map((lec, index) => (
+                        <div key={lec.id} className="space-y-1.5">
+                          <div className="flex justify-between items-center text-xs font-semibold text-slate-700">
+                            <span>{lec.title}</span>
+                            <span>{lec.downloads} تحميل</span>
+                          </div>
+                          <div className="w-full bg-slate-100 rounded-full h-2.5">
+                            <div 
+                              className="bg-emerald-900 h-2.5 rounded-full transition-all duration-1000" 
+                              style={{ width: `${Math.min(100, (lec.downloads / 700) * 100)}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* قائمة الإعلانات والتوجيهات السريعة لمدير النظام */}
+                  <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">نصائح وإرشادات لإدارة المحتوى</h3>
+                    <ul className="space-y-3 text-xs text-slate-600 leading-relaxed">
+                      <li className="flex gap-2 items-start bg-slate-50 p-2 rounded">
+                        <span className="text-emerald-800 font-bold">●</span>
+                        <span>يرجى كتابة وصف المحاضرة بشكل مفصل لضمان ظهور موقع الشيخ في أعلى نتائج بحث جوجل (SEO).</span>
+                      </li>
+                      <li className="flex gap-2 items-start bg-slate-50 p-2 rounded">
+                        <span className="text-emerald-800 font-bold">●</span>
+                        <span>تأكد من إدخال روابط MP3 سليمة حتى يشتغل المشغل الصوتي لطلاب العلم بكفاءة وبدون تقطيع.</span>
+                      </li>
+                      <li className="flex gap-2 items-start bg-slate-50 p-2 rounded">
+                        <span className="text-emerald-800 font-bold">●</span>
+                        <span>بعد انتهاء البث المباشر، يرجى الدخول فوراً لقسم إدارة البث وتحديث الحالة إلى مغلق لمنع تشويش الزوار.</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+
+              </div>
+            )}
+
+            {/* إدارة الدروس والمحاضرات */}
+            {adminSubTab === 'lectures' && (
+              <div className="space-y-8">
+                
+                {/* نموذج إضافة درس جديد */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+                  <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">
+                    {editingLecture ? 'تعديل بيانات المحاضرة الحالية' : 'إضافة محاضرة أو درس جديد للمكتبة العلمية'}
+                  </h3>
+
+                  <form onSubmit={editingLecture ? handleUpdateLecture : handleAddLecture} className="space-y-4 text-xs">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">عنوان المحاضرة العلمي *</label>
+                        <input 
+                          type="text" 
+                          required
+                          value={editingLecture ? editingLecture.title : newLecture.title}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, title: e.target.value })
+                            : setNewLecture({ ...newLecture, title: e.target.value })
+                          }
+                          placeholder="مثال: شرح أصول السنة للإمام أحمد"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">التصنيف العلمي الأساسي *</label>
+                        <select 
+                          required
+                          value={editingLecture ? editingLecture.categoryId : newLecture.categoryId}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, categoryId: e.target.value })
+                            : setNewLecture({ ...newLecture, categoryId: e.target.value })
+                          }
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        >
+                          <option value="">اختار تصنيف مناسب...</option>
+                          {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">السلسلة العلمية التابعة لها (اختياري)</label>
+                        <select 
+                          value={editingLecture ? editingLecture.seriesId : newLecture.seriesId}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, seriesId: e.target.value })
+                            : setNewLecture({ ...newLecture, seriesId: e.target.value })
+                          }
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        >
+                          <option value="">محاضرة منفردة مستقلة</option>
+                          {series.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
+                        </select>
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">مدة المحاضرة المقدرة</label>
+                        <input 
+                          type="text" 
+                          value={editingLecture ? editingLecture.duration : newLecture.duration}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, duration: e.target.value })
+                            : setNewLecture({ ...newLecture, duration: e.target.value })
+                          }
+                          placeholder="مثال: 45 دقيقة"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">وصف موجز للموضوع والفوائد المطروحة</label>
+                      <textarea 
+                        rows="3" 
+                        value={editingLecture ? editingLecture.description : newLecture.description}
+                        onChange={(e) => editingLecture 
+                          ? setEditingLecture({ ...editingLecture, description: e.target.value })
+                          : setNewLecture({ ...newLecture, description: e.target.value })
+                        }
+                        placeholder="اكتب خلاصة سريعة للدرس أو المحاضرة لتظهر للزوار وطلاب العلم..."
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      ></textarea>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">تاريخ الإلقاء</label>
+                        <input 
+                          type="date" 
+                          value={editingLecture ? editingLecture.date : newLecture.date}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, date: e.target.value })
+                            : setNewLecture({ ...newLecture, date: e.target.value })
+                          }
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">مكان إلقاء الدرس</label>
+                        <input 
+                          type="text" 
+                          value={editingLecture ? editingLecture.location : newLecture.location}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, location: e.target.value })
+                            : setNewLecture({ ...newLecture, location: e.target.value })
+                          }
+                          placeholder="مثال: مسجد التوحيد، طرابلس"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">رابط صورة مصغرة (رابط خارجي)</label>
+                        <input 
+                          type="text" 
+                          value={editingLecture ? editingLecture.thumbnail : newLecture.thumbnail}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, thumbnail: e.target.value })
+                            : setNewLecture({ ...newLecture, thumbnail: e.target.value })
+                          }
+                          placeholder="مثال: https://images.unsplash.com/..."
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-slate-100">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">رابط الملف الصوتي MP3</label>
+                        <input 
+                          type="text" 
+                          value={editingLecture ? editingLecture.audioUrl : newLecture.audioUrl}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, audioUrl: e.target.value })
+                            : setNewLecture({ ...newLecture, audioUrl: e.target.value })
+                          }
+                          placeholder="https://example.com/lecture.mp3"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">رابط الفيديو (اختياري)</label>
+                        <input 
+                          type="text" 
+                          value={editingLecture ? editingLecture.videoUrl : newLecture.videoUrl}
+                          onChange={(e) => editingLecture 
+                            ? setEditingLecture({ ...editingLecture, videoUrl: e.target.value })
+                            : setNewLecture({ ...newLecture, videoUrl: e.target.value })
+                          }
+                          placeholder="https://example.com/lecture.mp4 أو يوتيوب"
+                          className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <button type="submit" className="flex-1 bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition">
+                        {editingLecture ? 'حفظ تعديلات المحاضرة' : 'إضافة الدرس للمنصة فوراً'}
+                      </button>
+                      {editingLecture && (
+                        <button 
+                          type="button" 
+                          onClick={() => setEditingLecture(null)}
+                          className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-6 py-2.5 rounded-xl transition font-bold"
+                        >
+                          إلغاء التعديل
+                        </button>
+                      )}
+                    </div>
+                  </form>
+                </div>
+
+                {/* جدول إدارة المحاضرات والدروس الحالية */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm overflow-x-auto">
+                  <h3 className="text-lg font-bold text-slate-900 mb-4 border-b border-slate-100 pb-2">جميع المحاضرات والدروس المنشورة حالياً</h3>
+                  
+                  <table className="w-full text-right text-xs">
+                    <thead>
+                      <tr className="bg-slate-50 text-slate-700 border-b border-slate-200">
+                        <th className="p-3">عنوان المحاضرة</th>
+                        <th className="p-3">التصنيف</th>
+                        <th className="p-3">تاريخ الإلقاء</th>
+                        <th className="p-3">التحميلات</th>
+                        <th className="p-3">المشاهدات</th>
+                        <th className="p-3 text-center">الإجراءات والتحكم</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {lectures.map(lec => (
+                        <tr key={lec.id} className="hover:bg-slate-50/80">
+                          <td className="p-3 font-semibold text-slate-900">{lec.title}</td>
+                          <td className="p-3">{categories.find(c => c.id === lec.categoryId)?.name || 'عام'}</td>
+                          <td className="p-3">{lec.date}</td>
+                          <td className="p-3">{lec.downloads}</td>
+                          <td className="p-3">{lec.views}</td>
+                          <td className="p-3 flex justify-center gap-2">
+                            <button 
+                              onClick={() => { setEditingLecture(lec); window.scrollTo({ top: 300, behavior: 'smooth' }); }}
+                              className="bg-amber-50 text-amber-700 hover:bg-amber-100 p-2 rounded-lg transition"
+                              title="تعديل بيانات الدرس"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteLecture(lec.id)}
+                              className="bg-rose-50 text-rose-700 hover:bg-rose-100 p-2 rounded-lg transition"
+                              title="حذف الدرس نهائياً"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            )}
+
+            {/* إدارة البث المباشر */}
+            {adminSubTab === 'live-control' && (
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">لوحة إعدادات البث والجدولة</h3>
+                  <p className="text-slate-500 text-xs mt-1">يمكنك التحكم المباشر بإتاحة وتوقيف البث، وتعديل روابط البث القادم.</p>
+                </div>
+
+                <form onSubmit={handleUpdateLiveStream} className="space-y-4 text-xs">
+                  
+                  {/* زر التبديل الفوري لحالة البث */}
+                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-150 flex justify-between items-center">
+                    <div>
+                      <span className="font-bold text-slate-900 text-sm block">حالة البث الحالية على المنصة</span>
+                      <span className="text-xs text-slate-500">مباشر الآن يسمح للمستخدمين بالاستماع الفوري للدرس</span>
+                    </div>
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        setLiveStream({ ...liveStream, isLive: !liveStream.isLive });
+                        showAlert(`تم تغيير حالة البث المباشر لـ: ${!liveStream.isLive ? 'متاح الآن' : 'غير متاح حالياً'}`);
+                      }}
+                      className={`px-6 py-2.5 rounded-xl font-bold transition text-xs flex items-center gap-1.5 ${
+                        liveStream.isLive 
+                          ? 'bg-rose-600 text-white hover:bg-rose-700 animate-pulse' 
+                          : 'bg-slate-300 text-slate-700 hover:bg-slate-400'
+                      }`}
+                    >
+                      <Radio className="w-4 h-4" />
+                      {liveStream.isLive ? 'البث مفعل حالياً (إغلاق)' : 'البث متوقف حالياً (تفعيل)'}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">عنوان الدرس المباشر الحالي</label>
+                      <input 
+                        type="text" 
+                        value={liveStream.title}
+                        onChange={(e) => setLiveStream({ ...liveStream, title: e.target.value })}
+                        placeholder="شرح كتاب التوحيد..."
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">رابط البث المباشر (HLS / RTMP / MP4)</label>
+                      <input 
+                        type="text" 
+                        value={liveStream.streamUrl}
+                        onChange={(e) => setLiveStream({ ...liveStream, streamUrl: e.target.value })}
+                        placeholder="https://..."
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">تاريخ ووقت اللقاء المباشر القادم (للعداد التنازلي)</label>
+                      <input 
+                        type="datetime-local" 
+                        value={liveStream.nextStreamTime}
+                        onChange={(e) => setLiveStream({ ...liveStream, nextStreamTime: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">وصف موجز للمحاضرة الجارية</label>
+                      <input 
+                        type="text" 
+                        value={liveStream.description}
+                        onChange={(e) => setLiveStream({ ...liveStream, description: e.target.value })}
+                        className="w-full px-3 py-2 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+                  </div>
+
+                  <button type="submit" className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition">
+                    حفظ وإشهار تحديثات البث والعداد التنازلي
+                  </button>
+
+                </form>
+              </div>
+            )}
+
+            {/* إدارة السلاسل والتصنيفات */}
+            {adminSubTab === 'series' && (
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                {/* إدارة السلاسل العلمية */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">إضافة سلسلة علمية جديدة</h3>
+                    <p className="text-slate-500 text-xs mt-1">تجميع الشروح والدروس ضمن سلسلة علمية واضحة ومبوبة.</p>
+                  </div>
+
+                  <form onSubmit={handleAddSeries} className="space-y-4 text-xs">
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">عنوان السلسلة العلمية *</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={newSeries.title}
+                        onChange={(e) => setNewSeries({ ...newSeries, title: e.target.value })}
+                        placeholder="مثال: سلسلة السيرة النبوية الشريفة"
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">عدد الدروس التقريبي</label>
+                        <input 
+                          type="number" 
+                          value={newSeries.lessonsCount}
+                          onChange={(e) => setNewSeries({ ...newSeries, lessonsCount: e.target.value })}
+                          placeholder="مثال: 12"
+                          className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="font-bold text-slate-700">المدة التقديرية (ساعة)</label>
+                        <input 
+                          type="text" 
+                          value={newSeries.duration}
+                          onChange={(e) => setNewSeries({ ...newSeries, duration: e.target.value })}
+                          placeholder="مثال: 9 ساعات"
+                          className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">التصنيف التابعة له</label>
+                      <select 
+                        value={newSeries.categoryId}
+                        onChange={(e) => setNewSeries({ ...newSeries, categoryId: e.target.value })}
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs"
+                      >
+                        <option value="">اختار تصنيف مناسب...</option>
+                        {categories.map(cat => <option key={cat.id} value={cat.id}>{cat.name}</option>)}
+                      </select>
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">وصف موجز للسلسلة</label>
+                      <textarea 
+                        rows="2" 
+                        value={newSeries.description}
+                        onChange={(e) => setNewSeries({ ...newSeries, description: e.target.value })}
+                        placeholder="نبذة مختصرة تفيد الزائر لمعرفة محتوى السلسلة وموضوعاتها..."
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs"
+                      ></textarea>
+                    </div>
+
+                    <button type="submit" className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition">
+                      تأكيد وإنشاء السلسلة العلمية
+                    </button>
+                  </form>
+                </div>
+
+                {/* إدارة التصنيفات والتبويبات الفقهية والعقدية */}
+                <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                  <div>
+                    <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">إدارة التصنيفات العلمية</h3>
+                    <p className="text-slate-500 text-xs mt-1">إضافة التصنيفات الأساسية لتوزيع المحاضرات (أصول، فقه، تفسير، عقيدة...)</p>
+                  </div>
+
+                  <form onSubmit={handleAddCategory} className="space-y-4 text-xs">
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">اسم التصنيف العلمي الجديد *</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={newCategory.name}
+                        onChange={(e) => setNewCategory({ name: e.target.value })}
+                        placeholder="مثال: التفسير وأسباب النزول"
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+
+                    <button type="submit" className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition">
+                      إضافة التصنيف العلمي الجديد
+                    </button>
+                  </form>
+
+                  <div className="space-y-2 pt-4 border-t border-slate-100">
+                    <h4 className="font-bold text-slate-800 text-xs">التصنيفات المتاحة حالياً</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {categories.map(cat => (
+                        <span key={cat.id} className="bg-slate-100 text-slate-800 font-semibold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1">
+                          {cat.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            )}
+
+            {/* إدارة المقالات والأخبار */}
+            {adminSubTab === 'articles' && (
+              <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 border-b border-slate-150 pb-2">كتابة ونشر مقال علمي أو خبر دعوي</h3>
+                  <p className="text-slate-500 text-xs mt-1">تنشر هذه المقالات والفوائد والردود العلمية فوراً في صفحة المقالات بالموقع للعامة.</p>
+                </div>
+
+                <form onSubmit={handleAddArticle} className="space-y-4 text-xs">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">عنوان المقال أو الفائدة *</label>
+                      <input 
+                        type="text" 
+                        required
+                        value={newArticle.title}
+                        onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+                        placeholder="مثال: فضل السعي في نفع الناس وقضاء حوائجهم"
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+
+                    <div className="space-y-1">
+                      <label className="font-bold text-slate-700">فئة المقال ومجاله العلمي</label>
+                      <input 
+                        type="text" 
+                        value={newArticle.category}
+                        onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
+                        placeholder="مثال: توجيهات منهجية، فتاوى سريعة..."
+                        className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-1">
+                    <label className="font-bold text-slate-700">محتوى المقال العلمي المفصل *</label>
+                    <textarea 
+                      rows="6" 
+                      required
+                      value={newArticle.content}
+                      onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
+                      placeholder="اكتب المقال أو النص العلمي المفصل هنا..."
+                      className="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-xs focus:ring-1 focus:ring-emerald-600"
+                    ></textarea>
+                  </div>
+
+                  <button type="submit" className="w-full bg-emerald-900 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-xl transition">
+                    نشر المقال العلمي وإعلانه بالمنصة
+                  </button>
+                </form>
+              </div>
+            )}
+
+          </div>
+        )}
+
+      </main>
+
+      {/* مشغل صوتي عائم أسفل الشاشة (في حال تشغيل أي مادة علمية) */}
+      {playingAudio && (
+        <div className="fixed bottom-0 left-0 right-0 bg-slate-900 text-white border-t-2 border-amber-500 py-3.5 px-4 shadow-2xl z-50 animate-slideUp">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3">
+            
+            <div className="flex items-center gap-3 w-full md:w-auto">
+              <div className="bg-amber-500 text-slate-950 p-2 rounded-xl">
+                <Play className="w-5 h-5 animate-pulse" />
+              </div>
+              <div className="text-right">
+                <h4 className="text-sm font-bold text-white line-clamp-1">{playingAudio.title}</h4>
+                <p className="text-[10px] text-amber-400 font-semibold mt-0.5">
+                  {categories.find(c => c.id === playingAudio.categoryId)?.name || 'عام'} - بصيغة MP3
+                </p>
+              </div>
+            </div>
+
+            {/* شريط التقدم والمشغل التفاعلي المحاكي */}
+            <div className="flex items-center gap-3 w-full md:flex-1 max-w-lg">
+              <span className="text-[10px] text-slate-400">12:35</span>
+              <div className="flex-1 bg-slate-700 h-1.5 rounded-full relative cursor-pointer" onClick={() => showAlert('جاري التقديم أو التأخير في مسار الصوت')}>
+                <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: '35%' }}></div>
+              </div>
+              <span className="text-[10px] text-slate-400">{playingAudio.duration}</span>
+            </div>
+
+            {/* التحكم بمستوى الصوت والحذف */}
+            <div className="flex items-center gap-4 justify-between w-full md:w-auto">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => setAudioState(prev => ({ ...prev, isPlaying: !prev.isPlaying }))}
+                  className="bg-amber-500 hover:bg-amber-600 text-slate-950 p-2.5 rounded-full transition shadow-md"
+                >
+                  {audioState.isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                </button>
+                <div className="flex items-center gap-1.5 text-slate-300">
+                  <Volume2 className="w-4 h-4" />
+                  <span className="text-xs">80%</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => handleDownload(playingAudio)}
+                  className="bg-slate-800 hover:bg-slate-700 text-white text-xs px-3 py-1.5 rounded-lg transition flex items-center gap-1"
+                >
+                  <Download className="w-3.5 h-3.5" /> تحميل MP3
+                </button>
+                <button 
+                  onClick={() => setPlayingAudio(null)}
+                  className="text-slate-400 hover:text-white p-1"
+                  title="إغلاق المشغل"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+          </div>
         </div>
+      )}
 
-        <!-- أرشيف ومكتبة المواد العلمية -->
-        <h2>📚 الأرشيف العلمي والدروس</h2>
+      {/* مودال لمشاهدة الفيديوهات العلمية */}
+      {playingVideo && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+          <div className="bg-slate-900 rounded-3xl overflow-hidden max-w-3xl w-full border border-slate-800 shadow-2xl relative animate-fadeIn">
+            <button 
+              onClick={() => setPlayingVideo(null)} 
+              className="absolute top-4 right-4 bg-black/60 hover:bg-black/90 text-white p-2.5 rounded-full z-10 transition"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            
+            <div className="aspect-video bg-black flex items-center justify-center">
+              <video 
+                src={playingVideo.videoUrl || "https://www.w3schools.com/html/mov_bbb.mp4"} 
+                controls 
+                autoPlay 
+                className="w-full h-full object-cover"
+              />
+            </div>
 
-        <!-- قسم العقيدة -->
-        <h3 class="category-title">أولا: قسم العقيدة</h3>
-        
-        <div class="lesson-card">
-            <div class="lesson-info">
-                <h3>شرح كتاب التوحيد - الدرس الأول</h3>
-                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 15 ميجابايت</p>
+            <div className="p-6 text-right space-y-2 text-white">
+              <span className="text-xs bg-amber-500 text-slate-950 px-3 py-1 rounded-full font-bold">
+                {categories.find(c => c.id === playingVideo.categoryId)?.name || 'عام'}
+              </span>
+              <h3 className="text-xl font-bold mt-1">{playingVideo.title}</h3>
+              <p className="text-slate-300 text-xs leading-relaxed">{playingVideo.description}</p>
             </div>
-            <div class="lesson-buttons">
-                <!-- استبدل الرابط برابط الملف الفعلي من جوجل درايف -->
-                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
-                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
-            </div>
+          </div>
         </div>
+      )}
 
-        <div class="lesson-card">
-            <div class="lesson-info">
-                <h3>شرح كتاب التوحيد - الدرس الثاني</h3>
-                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 18 ميجابايت</p>
+      {/* الفوتر السفلي للموقع */}
+      <footer className="bg-slate-950 text-slate-400 py-8 px-4 border-t border-slate-850 mt-12 text-xs">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-center md:text-right">
+          
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 justify-center md:justify-start">
+              <div className="bg-amber-500 text-slate-950 font-black p-2 rounded-xl text-sm">فز</div>
+              <h4 className="text-base font-extrabold text-white">منصة الشيخ فؤاد الزنتاني العلمية</h4>
             </div>
-            <div class="lesson-buttons">
-                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
-                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
-            </div>
+            <p className="text-slate-500 leading-relaxed max-w-sm mx-auto md:mx-0">
+              جميع الحقوق العلمية والدعوية محفوظة لكل طالب علم يسعى لنشر الخير، والدعوة لله جل وعلا بالمنهج الحق والأثر القويم.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button onClick={() => setActiveTab('home')} className="hover:text-amber-400 transition">الرئيسية</button>
+            <button onClick={() => setActiveTab('live')} className="hover:text-amber-400 transition">البث المباشر</button>
+            <button onClick={() => setActiveTab('archive')} className="hover:text-amber-400 transition">أرشيف المحاضرات</button>
+            <button onClick={() => setActiveTab('series')} className="hover:text-amber-400 transition">السلاسل العلمية</button>
+            <button onClick={() => setActiveTab('about')} className="hover:text-amber-400 transition">عن الشيخ</button>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-slate-500">تم التطوير باستخدام أحدث التقنيات البرمجية المتجاوبة (React & Tailwind CSS).</p>
+            <p className="font-bold text-amber-500/80">© ٢٠٢٦ الموقع الرسمي لفضيلة الشيخ فؤاد الزنتاني</p>
+          </div>
+
         </div>
-
-
-        <!-- قسم الفقه -->
-        <h3 class="category-title">ثانياً: قسم الفقه</h3>
-        
-        <div class="lesson-card">
-            <div class="lesson-info">
-                <h3>شرح متن أبي شجاع - كتاب الطهارة</h3>
-                <p style="margin:0; font-size:0.85rem; color:#777;">صيغة MP3 | حجم الملف: 22 ميجابايت</p>
-            </div>
-            <div class="lesson-buttons">
-                <a href="رابط_جوجل_درايف_للملف" target="_blank" class="btn btn-listen">استماع</a>
-                <a href="رابط_جوجل_درايف_للملف" download class="btn btn-download">تحميل مباشر</a>
-            </div>
-        </div>
+      </footer>
 
     </div>
+  );
+}
 
-    <footer>
-        <p>جميع الحقوق محفوظة للمكتبة العلمية لفضيلة الشيخ فؤاد الزنتاني © 2026</p>
-    </footer>
-
-</body>
-</html>
+```
